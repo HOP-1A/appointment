@@ -19,6 +19,8 @@ model bookTime {
  lastName String
  phoneNumber String
  reason String 
+ updatedAt   DateTime @updatedAt
+ createdAt   DateTime @default(now())
  startDate DateTime 
  endDate DateTime   
 }
