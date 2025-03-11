@@ -3,7 +3,9 @@ export default function Home() {
     <div>
       <div className=" text-white w-screen h-[340px] bg-[url(https://i.pinimg.com/736x/a2/1c/23/a21c2306e3aea1c1a5b213556c1965c3.jpg)] bg-cover bg-bg-center">
         <div className="flex justify-center gap-[1800px] p-4 text-[24px] font-medium">
-          <a href="" className="font-[Oswald]">11 Dental clinic</a>
+          <a href="" className="font-[Oswald]">
+            11 Dental clinic
+          </a>
           <div className="flex justify-center gap-8">
             <a href="">Нүүр</a>
             <a href="">Цаг захиалга</a>
@@ -17,7 +19,9 @@ export default function Home() {
         </div>
       </div>
       <div className="mb-[90px] mt-[30px]">
-        <h1 className="text-center text-[48px] text-blue-300 font-[Playfair_Display] font-medium">BE PROUD OF YOUR SMILE</h1>
+        <h1 className="text-center text-[48px] text-blue-300 font-[Playfair_Display] font-medium">
+          BE PROUD OF YOUR SMILE
+        </h1>
         <p className="text-center text-[18px] font-medium text-blue-900">
           Эрүүл шүд - Эрүүл бие эрхэмсэг гоо сайхныг цогцлооно
         </p>
