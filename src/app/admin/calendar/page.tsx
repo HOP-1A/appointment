@@ -28,7 +28,6 @@ function CalendarApp() {
       createViewMonthGrid(),
       createViewMonthAgenda(),
     ],
-
     events: [
       {
         id: "1",
