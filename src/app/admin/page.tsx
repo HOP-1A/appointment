@@ -1,4 +1,10 @@
-const Page = ()=>{
-return <div>admin</div>
-}
+import CalendarApp from "./calendar/page";
+
+const Page = () => {
+  return (
+    <div>
+      <CalendarApp />
+    </div>
+  );
+};
 export default Page;
