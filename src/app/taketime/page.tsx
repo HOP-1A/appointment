@@ -82,7 +82,7 @@ const Page = () => {
           </div>
         </div>
       </div>
-      <div className="flex bg-[#152b46] text-white h-28 items-center font-medium mt-5 justify-center">
+      <div className="flex bg-[#152b46] text-white h-28 items-center font-medium mt-5">
         PINECONE © 2015-2025
       </div>
     </div>
