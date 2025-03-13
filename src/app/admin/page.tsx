@@ -1,9 +1,10 @@
-import { prisma } from "@/lib/prisma";
+import CalendarApp from "./calendar/page";
 
-const Page = async ()=>{
-    const data =  await prisma.bookTime.findMany()
-    
-    
-return <div>admin</div>
-}
+const Page = () => {
+  return (
+    <div>
+      <CalendarApp />
+    </div>
+  );
+};
 export default Page;
