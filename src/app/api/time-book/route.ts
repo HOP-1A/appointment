@@ -9,8 +9,8 @@ export const POST = async (req: Request) => {
         reason: body.reason,
         startDate: body.startDate,
         endDate: body.endDate,
-        firstname: body.firstname,
-        lastname: body.lastname,
+        firstName: body.firstName,
+        lastName: body.lastName,
         phoneNumber: body.phoneNumber,
       },
     });
