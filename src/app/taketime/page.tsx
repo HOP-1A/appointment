@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -8,7 +9,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import {
-  DialogHeader,
   Dialog,
   DialogContent,
   DialogDescription,
@@ -22,7 +22,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { PhoneNumber } from "@clerk/nextjs/server";
 import { Clock } from "lucide-react";
 import { Phone } from "lucide-react";
 import { useState } from "react";
@@ -38,11 +37,16 @@ const Page = () => {
     setIsModalOpen(false);
   };
 
+  const router = useRouter();
+  const redirectToHome = () => {
+    router.push("/");
+  };
+
   return (
     <>
       <div>
         <div className="flex flex-row gap-48 justify-center bg-[#f9f9f9] h-14 items-center mb-3">
-          <div className="flex flex-row">
+          <div className="flex flex-row" onClick={redirectToHome}>
             <img
               src="https://shud-info.itdoctor.mn/img/logo.png"
               height={25}
@@ -106,9 +110,6 @@ const Page = () => {
                       Утас: 96043232
                     </CardDescription>
                   </div>
-                  <Button className="w-52  mt-5 bg-[#1f5090] font-semibold p-3">
-                    Цаг авах
-                  </Button>
                 </CardHeader>
               </Card>
             </div>
