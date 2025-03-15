@@ -49,6 +49,17 @@
   --radius-xl: calc(var(--radius) + 4px);
 }
 
+.dialog-overlay {
+  position: fixed; /* Ensure it is fixed to the screen */
+  top: 50%; /* Vertically center */
+  left: 50%; /* Horizontally center */
+  transform: translate(-50%, -50%); /* Correct for exact centering */
+}
+
+.dialog-content {
+  margin: 0 auto;
+}
+
 :root {
   --background: oklch(1 0 0);
   --foreground: oklch(0.141 0.005 285.823);
