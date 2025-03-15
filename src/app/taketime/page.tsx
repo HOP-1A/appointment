@@ -118,11 +118,7 @@ const Page = () => {
         <div className="flex bg-[#152b46] text-white h-28 items-center font-medium mt-5 justify-center">
           PINECONE © 2015-2025
         </div>
-
         <TakeTimeDialog open={isModalOpen} onOpenChange={closeModal} />
-      </div>
-      <div className="flex bg-[#152b46] text-white h-28 items-center font-medium mt-5">
-        PINECONE © 2015-2025
       </div>
     </>
   );
@@ -186,9 +182,7 @@ const TakeTimeDialog = ({
             required
             onChange={(e) => setPhoneNumber(e.target.value)}
           />
-          <Button onClick={inputCheck} className="mt-3 bg-[#1f5090] w-[100px]">
-            Хадгалах
-          </Button>
+          <Button className="mt-3 bg-[#1f5090] w-[100px]">Хадгалах</Button>
         </form>
       </DialogContent>
     </Dialog>
