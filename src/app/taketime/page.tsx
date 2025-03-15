@@ -151,10 +151,10 @@ const TakeTimeDialog = ({
       <DialogContent>
         <form>
           <DialogTitle className="text-3xl">Цаг захиалах</DialogTitle>
-          <DialogDescription>Эмчилгээ:</DialogDescription>
+          <DialogDescription className="mt-3">Эмчилгээ:</DialogDescription>
           <Select>
             <SelectTrigger className="w-full">
-              <SelectValue placeholder="шалтгаанаа оруулнуу" />
+              <SelectValue placeholder="шалтгаанаа сонгоно уу" />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="үзлэг зөвөлгөө">үзлэг зөвөлгөө</SelectItem>
@@ -173,25 +173,25 @@ const TakeTimeDialog = ({
               <SelectItem value="Хиймэл шүд">Хиймэл шүд</SelectItem>
             </SelectContent>
           </Select>
-          <DialogDescription>Овог: </DialogDescription>
+          <DialogDescription className="mt-3">Овог: </DialogDescription>
           <Input
             value={firstName}
             required
             onChange={(e) => setFirstName(e.target.value)}
           />
-          <DialogDescription>Нэр: </DialogDescription>
+          <DialogDescription className="mt-3">Нэр: </DialogDescription>
           <Input
             value={lastName}
             required
             onChange={(e) => setLastName(e.target.value)}
           />
-          <DialogDescription>Утас: </DialogDescription>
+          <DialogDescription className="mt-3">Утас: </DialogDescription>
           <Input
             value={phoneNumber}
             required
             onChange={(e) => setPhoneNumber(e.target.value)}
           />
-          <Button onClick={inputCheck} className="bg-[#1f5090] w-[100px]">
+          <Button onClick={inputCheck} className="mt-3 bg-[#1f5090] w-[100px]">
             Хадгалах
           </Button>
         </form>
