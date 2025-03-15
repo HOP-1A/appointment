@@ -141,11 +141,6 @@ const TakeTimeDialog = ({
   const [firstName, setFirstName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
 
-  const inputCheck = () => {
-    if (!lastName) return alert("please fill the lastName");
-    if (!firstName) return alert("please fill the firstName");
-    if (!phoneNumber) return alert("please fill the PhoneNumber");
-  };
   return (
     <Dialog open={open} onOpenChange={() => onOpenChange(false)}>
       <DialogContent>
