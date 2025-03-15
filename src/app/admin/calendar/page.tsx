@@ -17,7 +17,7 @@ function CalendarApp({ events }: { events: Event[] }) {
   });
 
   return (
-    <div className="h-screen w-full">
+    <div>
       <ScheduleXCalendar calendarApp={calendar} />
     </div>
   );

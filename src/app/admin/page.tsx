@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import CalendarApp from "./calendar/page";
 import { format } from "date-fns";
+import Appointments from "./calendar/Appointments";
 
 const formatDate = (dateString: Date) => {
   return format(dateString, "yyyy-MM-dd hh:mm");
@@ -29,28 +30,35 @@ export type Event = {
 };
 
 const Page = () => {
-  const [fetchedEvents, setFetchedEvents] = useState<Event[]>([]);
+  const [fetchedEvents, setFetchedEvents] = useState<Appointment[]>([]);
+  const [formattedEvents, setFormattedEvents] = useState<Event[]>([]);
 
   useEffect(() => {
     async function fetchAppointments() {
-      const response = await fetch("/api/weekly-appoinment");
+      const response = await fetch("/api/weekly-appointment");
       const data: Appointment[] = await response.json();
 
+      setFetchedEvents(data);
       const formattedEvents: Event[] = data.map((appointment) => ({
         id: appointment.id,
         title: `${appointment.firstName} ${appointment.lastName}`,
         start: formatDate(appointment.startDate),
         end: formatDate(appointment.endDate),
       }));
-      console.log(formattedEvents);
-      setFetchedEvents(formattedEvents);
+
+      setFormattedEvents(formattedEvents);
     }
 
     fetchAppointments();
   }, []);
   return (
     <div>
-      {fetchedEvents.length > 0 && <CalendarApp events={fetchedEvents} />}
+      {fetchedEvents.length > 0 && (
+        <div className="px-32 flex justify-center gap-8">
+          <CalendarApp events={formattedEvents} />
+          <Appointments events={fetchedEvents} />
+        </div>
+      )}
     </div>
   );
 };
