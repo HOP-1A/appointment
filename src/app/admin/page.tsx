@@ -32,7 +32,6 @@ export type Event = {
 const Page = () => {
   const [fetchedEvents, setFetchedEvents] = useState<Appointment[]>([]);
   const [formattedEvents, setFormattedEvents] = useState<Event[]>([]);
-
   useEffect(() => {
     async function fetchAppointments() {
       const response = await fetch("/api/weekly-appointment");
@@ -48,9 +47,9 @@ const Page = () => {
 
       setFormattedEvents(formattedEvents);
     }
-
     fetchAppointments();
   }, []);
+
   return (
     <div>
       {fetchedEvents.length > 0 && (
