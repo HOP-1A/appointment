@@ -3,10 +3,12 @@ import { NextResponse } from "next/server";
 
 export const POST = async (req: Request) => {
   try {
+    console.log("asjflsadjflks");
     const body = await req.json();
+
     const bookTime = await prisma.bookTime.create({
       data: {
-        userId:body.userId,
+        userId: body.userId,
         reason: body.reason,
         startDate: body.startDate,
         endDate: body.endDate,
@@ -21,7 +23,7 @@ export const POST = async (req: Request) => {
     console.error("error!", error);
     return NextResponse.json(
       {
-        error: "failed to create booking time",
+        error,
       },
       {
         status: 500,
