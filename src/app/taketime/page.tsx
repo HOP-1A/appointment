@@ -162,7 +162,7 @@ const TakeTimeDialog = ({
               <SelectItem value="Гажиг засал">Гажиг засал</SelectItem>
               <SelectItem value="Сувгийн эмчилгээ">Сувгийн эмчилгээ</SelectItem>
               <SelectItem value="Шүд авхуулах">Шүд авахуулах</SelectItem>
-              <SelectItem value="Хиймэл шүд"></SelectItem>
+              <SelectItem value="Хиймэл шүд">Хиймэл шүд</SelectItem>
             </SelectContent>
           </Select>
           <DialogDescription className="mt-3">Овог: </DialogDescription>
