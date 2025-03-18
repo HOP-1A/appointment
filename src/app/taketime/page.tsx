@@ -149,7 +149,7 @@ const TakeTimeDialog = ({
               <SelectValue placeholder="шалтгаанаа сонгоно уу" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="үзлэг зөвөлгөө">Үзлэг зөвлгөө</SelectItem>
+              <SelectItem value="үзлэг зөвөлгөө">Үзлэг зөвлөгөө</SelectItem>
               <SelectItem value="Эмчилгээний давтан">
                 Эмчилгээний давтан
               </SelectItem>
