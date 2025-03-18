@@ -149,7 +149,7 @@ const TakeTimeDialog = ({
               <SelectValue placeholder="шалтгаанаа сонгоно уу" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="үзлэг зөвөлгөө">Үзлэг зөвлгөө</SelectItem>
+              <SelectItem value="үзлэг зөвөлгөө">Үзлэг зөвлөгөө</SelectItem>
               <SelectItem value="Эмчилгээний давтан">
                 Эмчилгээний давтан
               </SelectItem>
@@ -161,8 +161,8 @@ const TakeTimeDialog = ({
               </SelectItem>
               <SelectItem value="Гажиг засал">Гажиг засал</SelectItem>
               <SelectItem value="Сувгийн эмчилгээ">Сувгийн эмчилгээ</SelectItem>
-              <SelectItem value="Шүд авхуулах">Шүд авхуулах</SelectItem>
-              <SelectItem value="Хиймэл шүд">Хиймэл шүд</SelectItem>
+              <SelectItem value="Шүд авхуулах">Шүд авахуулах</SelectItem>
+              <SelectItem value="Хиймэл шүд"></SelectItem>
             </SelectContent>
           </Select>
           <DialogDescription className="mt-3">Овог: </DialogDescription>
