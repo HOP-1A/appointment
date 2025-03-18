@@ -3,7 +3,6 @@ import { NextResponse } from "next/server";
 
 export const POST = async (req: Request) => {
   try {
-    console.log("asjflsadjflks");
     const body = await req.json();
 
     const bookTime = await prisma.bookTime.create({

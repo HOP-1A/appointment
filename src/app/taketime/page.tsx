@@ -26,7 +26,14 @@ import { Clock } from "lucide-react";
 import { Phone } from "lucide-react";
 import { useState } from "react";
 import { Calendar } from "@/components/ui/calendar";
-import { isBefore, format, addHours } from "date-fns";
+import {
+  isBefore,
+  format,
+  addHours,
+  setMinutes,
+  setSeconds,
+  setHours,
+} from "date-fns";
 import { useUser } from "@clerk/nextjs";
 
 const Page = () => {
@@ -166,6 +173,7 @@ const TakeTimeDialog = ({
     "19:00",
   ];
 
+  console.log("data", date, "selectedTIME", selectedTime);
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -180,7 +188,7 @@ const TakeTimeDialog = ({
       alert("Бүх талбарыг бөглөнө үү");
       return;
     }
-
+    console.log(date);
     const bookingInfo = {
       firstName,
       lastName,
@@ -197,18 +205,24 @@ const TakeTimeDialog = ({
   };
   const { user } = useUser();
   const bookTime = async () => {
-    const startDate = new Date();
-    const endDate = new Date(startDate);
-    // const newDate = addHours(date, 1);
-    // const endDate = format(newDate, "yyyy:MM:dd HH:mm");
+    const [hours, minutes] = selectedTime!.split(":").map(Number);
+
+    // Set the extracted hours and minutes on the date object
+    const startDate = setSeconds(
+      setMinutes(setHours(date!, hours), minutes),
+      0
+    );
+
+    const endDate = addHours(startDate, 1);
+
     try {
       const resJSON = await fetch("/api/time-book", {
         method: "POST",
         body: JSON.stringify({
           userId: user?.id,
           reason: treatment,
-          startDate: date,
-          endDate,
+          startDate: format(startDate, "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"),
+          endDate: format(endDate, "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"),
           firstName,
           lastName,
           phoneNumber,
@@ -296,7 +310,7 @@ const TakeTimeDialog = ({
               if (!e) return;
               if (isBefore(new Date(), e)) {
                 setDate(e);
-                setSelectedTime(null);
+                // setSelectedTime(null);
               }
             }}
             className="rounded-md border"
