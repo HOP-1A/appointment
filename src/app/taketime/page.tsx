@@ -110,8 +110,7 @@ const Page = () => {
                   </div>
                   <Button
                     onClick={openModal}
-                    className="w-52 mt-5 bg-[#1f5090] font-semibold p-3"
-                  >
+                    className="w-52 mt-5 bg-[#1f5090] font-semibold p-3">
                     Цаг авах
                   </Button>
                 </CardHeader>
