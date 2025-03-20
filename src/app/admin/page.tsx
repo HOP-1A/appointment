@@ -8,7 +8,6 @@ import Appointments from "./calendar/Appointments";
 const formatDate = (dateString: Date) => {
   return format(dateString, "yyyy-MM-dd hh:mm");
 };
-
 export type Appointment = {
   id: string;
   userId: string;
@@ -32,6 +31,7 @@ export type Event = {
 const Page = () => {
   const [fetchedEvents, setFetchedEvents] = useState<Appointment[]>([]);
   const [formattedEvents, setFormattedEvents] = useState<Event[]>([]);
+
   useEffect(() => {
     async function fetchAppointments() {
       const response = await fetch("/api/weekly-appointment");
@@ -43,13 +43,15 @@ const Page = () => {
         title: `${appointment.firstName} ${appointment.lastName}`,
         start: formatDate(appointment.startDate),
         end: formatDate(appointment.endDate),
+        reason: appointment.reason,
+        phoneNumber: appointment.phoneNumber,
       }));
 
       setFormattedEvents(formattedEvents);
     }
+
     fetchAppointments();
   }, []);
-
   return (
     <div>
       {fetchedEvents.length > 0 && (
