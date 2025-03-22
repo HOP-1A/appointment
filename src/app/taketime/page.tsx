@@ -1,5 +1,4 @@
 "use client";
-
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
@@ -58,6 +57,10 @@ const Page = () => {
     router.push("/");
   };
 
+  const redirectToHistory = () => {
+    router.push("/history");
+  };
+
   return (
     <>
       <div>
@@ -79,13 +82,18 @@ const Page = () => {
 
         <div className="flex flex-col">
           <div className="flex flex-col items-center">
-            <div className="flex flex-row space-x-[450px] mb-5">
+            <div className="flex flex-row space-x-[300px] mb-5">
               <div className="text-4xl font-bold text-[#1f5090]">
                 11 Dental Clinic
               </div>
-              <Button onClick={openModal} className="w-48 bg-[#1f5090]">
-                Цаг авах
-              </Button>
+              <div className="space-x-5">
+                <Button onClick={redirectToHistory} className="bg-[#1f5090]">
+                  Цаг авсан түүх
+                </Button>
+                <Button onClick={openModal} className="w-48 bg-[#1f5090]">
+                  Цаг авах
+                </Button>
+              </div>
             </div>
             <img
               className="rounded-2xl w-full max-w-[900px]"
