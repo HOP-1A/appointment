@@ -173,36 +173,6 @@ const TakeTimeDialog = ({
     "19:00",
   ];
 
-  console.log("data", date, "selectedTIME", selectedTime);
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (
-      !firstName ||
-      !lastName ||
-      !phoneNumber ||
-      !date ||
-      !selectedTime ||
-      !treatment
-    ) {
-      alert("Бүх талбарыг бөглөнө үү");
-      return;
-    }
-    console.log(date);
-    const bookingInfo = {
-      firstName,
-      lastName,
-      phoneNumber,
-      date: format(date, "yyyy:MM:dd HH:mm"),
-      time: selectedTime,
-      treatment,
-    };
-
-    console.log("Booking info:", bookingInfo);
-
-    alert("Таны цаг амжилттай захиалагдлаа. Бид тантай холбогдох болно.");
-    onOpenChange(false);
-  };
   const { user } = useUser();
   const bookTime = async () => {
     const [hours, minutes] = selectedTime!.split(":").map(Number);
@@ -233,10 +203,49 @@ const TakeTimeDialog = ({
       });
 
       const data = await resJSON.json();
+
+      if (resJSON.ok) {
+        alert("Таны цаг амжилттай захиалагдлаа. Бид тантай холбогдох болно.");
+        onOpenChange(false);
+      } else if (resJSON.status === 401 && data.error === "already booked") {
+        alert("Энэ цаг аль хэдийн захиалагдсан байна. Өөр цаг сонгоно уу.");
+      } else {
+        alert("Алдаа гарлаа. Дахин оролдоно уу.");
+      }
+
       console.log(data);
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (
+      !firstName ||
+      !lastName ||
+      !phoneNumber ||
+      !date ||
+      !selectedTime ||
+      !treatment
+    ) {
+      alert("Бүх талбарыг бөглөнө үү");
+      return;
+    }
+    console.log(date);
+    const bookingInfo = {
+      firstName,
+      lastName,
+      phoneNumber,
+      date: format(date, "yyyy:MM:dd HH:mm"),
+      time: selectedTime,
+      treatment,
+    };
+
+    console.log("Booking info:", bookingInfo);
+
+    onOpenChange(false);
   };
 
   return (
