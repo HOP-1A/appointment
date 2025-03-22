@@ -1,5 +1,6 @@
 "use client";
 import { useUser } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
 import { format } from "date-fns";
 import { useEffect, useState } from "react";
 import { Appointment } from "../admin/page";
@@ -16,9 +17,17 @@ const History = () => {
     appointmentHistory();
   }, []);
 
+  const router = useRouter();
+
+  const redirectToHome = () => {
+    router.push("/");
+  };
   return (
     <div>
-      <div className=" pl-10 font-bold text-4xl text-[#1f5090]">
+      <div
+        className=" pl-10 font-bold text-4xl text-[#1f5090]"
+        onClick={redirectToHome}
+      >
         11 Dental Clinic
       </div>
       <div className=" flex flex-col items-center ">
