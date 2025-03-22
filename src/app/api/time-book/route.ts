@@ -1,9 +1,30 @@
 import { prisma } from "@/lib/prisma";
+import { error } from "console";
 import { NextResponse } from "next/server";
 
 export const POST = async (req: Request) => {
   try {
     const body = await req.json();
+
+    const bookedTime = await prisma.bookTime.findFirst({
+      where: {
+        userId: body.userId,
+        startDate: body.startDate,
+      },
+    });
+
+    console.log(bookedTime);
+
+    if (bookedTime) {
+      return NextResponse.json(
+        {
+          error: "already booked",
+        },
+        {
+          status: 401,
+        }
+      );
+    }
 
     const bookTime = await prisma.bookTime.create({
       data: {
@@ -16,7 +37,6 @@ export const POST = async (req: Request) => {
         phoneNumber: body.phoneNumber,
       },
     });
-    console.log(bookTime);
     return NextResponse.json(bookTime);
   } catch (error) {
     console.error("error!", error);

@@ -52,6 +52,8 @@ const Page = () => {
 
     fetchAppointments();
   }, []);
+
+  console.log(formattedEvents);
   return (
     <div>
       {fetchedEvents.length > 0 && (
