@@ -8,12 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogTitle,
-} from "@/components/ui/dialog";
+
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -27,6 +22,15 @@ import { Phone } from "lucide-react";
 import { useState } from "react";
 import { Calendar } from "@/components/ui/calendar";
 import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import {
   isBefore,
   format,
   addHours,
@@ -35,6 +39,8 @@ import {
   setHours,
 } from "date-fns";
 import { useUser } from "@clerk/nextjs";
+import { Label } from "@radix-ui/react-select";
+import { stringify } from "querystring";
 
 const Page = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -158,6 +164,7 @@ const TakeTimeDialog = ({
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
   const [treatment, setTreatment] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
 
   const timeSlots = [
     "09:00",
@@ -173,11 +180,28 @@ const TakeTimeDialog = ({
     "19:00",
   ];
 
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (
+      firstName === "" ||
+      lastName === "" ||
+      phoneNumber === "" ||
+      date === undefined ||
+      selectedTime === "" ||
+      treatment === ""
+    ) {
+      alert("Бүгдийн бөглөнө үү!");
+      setIsOpen(false);
+    } else {
+      setIsOpen(true);
+    }
+  };
+
   const { user } = useUser();
   const bookTime = async () => {
     const [hours, minutes] = selectedTime!.split(":").map(Number);
 
-    // Set the extracted hours and minutes on the date object
     const startDate = setSeconds(
       setMinutes(setHours(date!, hours), minutes),
       0
@@ -208,44 +232,15 @@ const TakeTimeDialog = ({
         alert("Таны цаг амжилттай захиалагдлаа. Бид тантай холбогдох болно.");
         onOpenChange(false);
       } else if (resJSON.status === 401 && data.error === "already booked") {
+        setIsOpen(false);
+        onOpenChange(false);
         alert("Энэ цаг аль хэдийн захиалагдсан байна. Өөр цаг сонгоно уу.");
       } else {
         alert("Алдаа гарлаа. Дахин оролдоно уу.");
       }
-
-      console.log(data);
     } catch (error) {
       console.log(error);
     }
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (
-      !firstName ||
-      !lastName ||
-      !phoneNumber ||
-      !date ||
-      !selectedTime ||
-      !treatment
-    ) {
-      alert("Бүх талбарыг бөглөнө үү");
-      return;
-    }
-    console.log(date);
-    const bookingInfo = {
-      firstName,
-      lastName,
-      phoneNumber,
-      date: format(date, "yyyy:MM:dd HH:mm"),
-      time: selectedTime,
-      treatment,
-    };
-
-    console.log("Booking info:", bookingInfo);
-
-    onOpenChange(false);
   };
 
   return (
@@ -258,19 +253,17 @@ const TakeTimeDialog = ({
           <form onSubmit={handleSubmit}>
             <DialogDescription className="mt-3">Эмчилгээ:</DialogDescription>
             <Select value={treatment} onValueChange={setTreatment}>
-              <SelectTrigger className="w-full">
+              <SelectTrigger className="w-fit">
                 <SelectValue placeholder="шалтгаанаа сонгоно уу" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="үзлэг зөвөлгөө">үзлэг зөвөлгөө</SelectItem>
+                <SelectItem value="үзлэг зөвөлгөө">Үзлэг зөвлөгөө</SelectItem>
                 <SelectItem value="Эмчилгээний давтан">
                   Эмчилгээний давтан
                 </SelectItem>
-                <SelectItem value="Бүрээс хийх">
-                  Бүрээс хийх/Porcelian Fused-to-Metal Crowns PFM, PFZ/
-                </SelectItem>
+                <SelectItem value="Бүрээс хийх">Бүрээс хийх</SelectItem>
                 <SelectItem value="Шүдний ломбо хийх">
-                  Шүдний ломбо хийх/Composite Fillings/
+                  Шүдний ломбо хийх
                 </SelectItem>
                 <SelectItem value="Гажиг засал">Гажиг засал</SelectItem>
                 <SelectItem value="Сувгийн эмчилгээ">
@@ -300,13 +293,41 @@ const TakeTimeDialog = ({
               placeholder="Жишээ: 96043232"
               onChange={(e) => setPhoneNumber(e.target.value)}
             />
-            <Button
-              onClick={bookTime}
-              type="submit"
-              className="mt-5 bg-[#1f5090] w-full"
+
+            <Dialog
+              open={isOpen}
+              onOpenChange={(value) => {
+                setIsOpen(value);
+              }}
             >
-              Хадгалах
-            </Button>
+              <DialogTrigger asChild>
+                <Button
+                  onClick={handleSubmit}
+                  className="bg-[#1f5090] w-[200px] mt-5 text-white"
+                  type="submit"
+                  variant="outline"
+                >
+                  Хадгaлах
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-[425px]">
+                <DialogHeader>
+                  <DialogTitle>
+                    Та итгэлтэй байна уу? Энэ үйлдэл буцаагдах боломжгүй
+                  </DialogTitle>
+                  <DialogDescription></DialogDescription>
+                </DialogHeader>
+                <DialogFooter>
+                  <Button
+                    onClick={bookTime}
+                    className="bg-[#1f5090] w-[120px]"
+                    type="submit"
+                  >
+                    үргэлжлүүлэх
+                  </Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
           </form>
         </div>
 
@@ -319,7 +340,6 @@ const TakeTimeDialog = ({
               if (!e) return;
               if (isBefore(new Date(), e)) {
                 setDate(e);
-                // setSelectedTime(null);
               }
             }}
             className="rounded-md border"
