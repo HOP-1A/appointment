@@ -28,12 +28,6 @@ const Appointments = ({ events }: { events: Appointment[] }) => {
                       {format(user.startDate, "yyyy-MM-dd hh:mm")}
                     </div>
                   </div>
-
-                  {/* <div className="text-center">
-                    <div className=" flex justify-center items-center text-green-800 font-bold bg-green-300 border-green-950 rounded-xl text-sm pb-4 h-4 w-20 pt-4 ">
-                      {user.reason}
-                    </div>
-                  </div> */}
                 </div>
               </div>
             ))}
