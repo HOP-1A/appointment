@@ -68,7 +68,10 @@ export const AppointmentDetail = ({
                 onChange={(e) => setNoteValue(e.target.value)}
                 className="h-[40px w-[340px]"
               />{" "}
-              <Button className=" h-[37px]" onClick={() => saveNote()}>
+              <Button
+                className=" bg-[#1f5090] h-[37px]"
+                onClick={() => saveNote()}
+              >
                 Save
               </Button>
             </div>
