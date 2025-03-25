@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
@@ -6,8 +7,10 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 import { CalendarEventExternal } from "@schedule-x/calendar";
 import { Phone } from "lucide-react";
+import { useState } from "react";
 
 export const AppointmentDetail = ({
   onOpenChange,
@@ -16,7 +19,11 @@ export const AppointmentDetail = ({
   onOpenChange: (_value: boolean) => void;
   selectedAppointment: CalendarEventExternal;
 }) => {
-  console.log(selectedAppointment);
+  const [open, setOpen] = useState(false);
+  const [noteValue, setNoteValue] = useState("");
+  const saveNote = () => {
+    setOpen(false);
+  };
   return (
     <Dialog open onOpenChange={onOpenChange}>
       <DialogTrigger>Open</DialogTrigger>
@@ -54,14 +61,25 @@ export const AppointmentDetail = ({
               <div>{selectedAppointment.reason}</div>
             </div>
           </div>
-          <div className="space-x-36">
-            <Button className="text-black bg-white border-1 font-bold p-6">
-              Edit
-            </Button>
-            <Button className="text-white bg-[#1f5090] border-1 font-bold p-6">
-              Cancel Appointment
-            </Button>
-          </div>
+          {open === true ? (
+            <div className="flex justify-between align-center h-[60px]">
+              <Input
+                value={noteValue}
+                onChange={(e) => setNoteValue(e.target.value)}
+                className="h-[40px w-[340px]"
+              />{" "}
+              <Button className=" h-[37px]" onClick={() => saveNote()}>
+                Save
+              </Button>
+            </div>
+          ) : null}
+
+          <Button
+            onClick={() => setOpen(true)}
+            className="text-white bg-[#1f5090] border-1 font-bold p-6"
+          >
+            Note
+          </Button>
         </Card>
       </DialogContent>
     </Dialog>
