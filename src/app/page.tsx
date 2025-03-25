@@ -13,7 +13,7 @@ export default function Home() {
       <div className=" text-white w-screen h-[340px] bg-[url(https://i.pinimg.com/736x/a2/1c/23/a21c2306e3aea1c1a5b213556c1965c3.jpg)] bg-cover bg-bg-center">
         <div className="flex justify-center gap-[1800px] p-4 text-[24px] font-medium">
           <a href="" className="font-[Oswald]">
-            11 Dental clinic
+            Team3 Dentalclinic
           </a>
           <div className="flex justify-center gap-8">
             <a href="/">Нүүр</a>

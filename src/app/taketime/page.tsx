@@ -24,10 +24,7 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
-  DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import {
   isBefore,
@@ -38,8 +35,6 @@ import {
   setHours,
 } from "date-fns";
 import { useUser } from "@clerk/nextjs";
-import { Label } from "@radix-ui/react-select";
-import { stringify } from "querystring";
 
 const Page = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -84,7 +79,7 @@ const Page = () => {
           <div className="flex flex-col items-center">
             <div className="flex flex-row space-x-[300px] mb-5">
               <div className="text-4xl font-bold text-[#1f5090]">
-                11 Dental Clinic
+                Team3 Dental Clinic
               </div>
               <div className="space-x-5">
                 <Button onClick={redirectToHistory} className="bg-[#1f5090]">
@@ -115,7 +110,7 @@ const Page = () => {
               </Card>
               <Card className="w-[310px] flex justify-center items-center">
                 <CardHeader>
-                  <CardTitle>11 Dental Clinic</CardTitle>
+                  <CardTitle>Team3 Dental Clinic</CardTitle>
                   <div className="flex flex-row items-center gap-1">
                     <Clock
                       className="fill-[#215495] text-white"
@@ -138,8 +133,7 @@ const Page = () => {
                   </div>
                   <Button
                     onClick={openModal}
-                    className="w-52 mt-5 bg-[#1f5090] font-semibold p-3"
-                  >
+                    className="w-52 mt-5 bg-[#1f5090] font-semibold p-3">
                     Цаг авах
                   </Button>
                 </CardHeader>
@@ -301,41 +295,12 @@ const TakeTimeDialog = ({
               placeholder="Жишээ: 96043232"
               onChange={(e) => setPhoneNumber(e.target.value)}
             />
-
-            <Dialog
-              open={isOpen}
-              onOpenChange={(value) => {
-                setIsOpen(value);
-              }}
-            >
-              <DialogTrigger asChild>
-                <Button
-                  onClick={handleSubmit}
-                  className="bg-[#1f5090] w-[200px] mt-5 text-white"
-                  type="submit"
-                  variant="outline"
-                >
-                  Хадгaлах
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="sm:max-w-[425px]">
-                <DialogHeader>
-                  <DialogTitle>
-                    Та итгэлтэй байна уу? Энэ үйлдэл буцаагдах боломжгүй
-                  </DialogTitle>
-                  <DialogDescription></DialogDescription>
-                </DialogHeader>
-                <DialogFooter>
-                  <Button
-                    onClick={bookTime}
-                    className="bg-[#1f5090] w-[120px]"
-                    type="submit"
-                  >
-                    үргэлжлүүлэх
-                  </Button>
-                </DialogFooter>
-              </DialogContent>
-            </Dialog>
+            <Button
+              onClick={bookTime}
+              type="submit"
+              className="mt-5 bg-[#1f5090] w-full">
+              Хадгалах
+            </Button>
           </form>
         </div>
 
@@ -372,8 +337,7 @@ const TakeTimeDialog = ({
                         ? "bg-[#1f5090]"
                         : "border-[#1f5090] text-[#1f5090]"
                     }`}
-                    onClick={() => setSelectedTime(time)}
-                  >
+                    onClick={() => setSelectedTime(time)}>
                     {time}
                   </Button>
                 ))}
