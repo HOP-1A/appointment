@@ -37,7 +37,7 @@ const Page = () => {
     <>
       <div>
         <div className="flex flex-row gap-48 justify-center bg-[#f9f9f9] h-14 items-center mb-3">
-          <div className="flex flex-row" onClick={redirectToHome}>
+          <div className="flex flex-row">
             <img
               src="https://shud-info.itdoctor.mn/img/logo.png"
               height={25}
@@ -47,7 +47,7 @@ const Page = () => {
             <div className="font-semibold">Шүдний эмнэлгийн систем</div>
           </div>
 
-          <div className="text-[#215495]">
+          <div className="text-blue-900">
             Эрүүл шүд - Эрүүл бие эрхэмсэг гоо сайхныг цогцлооно.
           </div>
         </div>
@@ -55,14 +55,16 @@ const Page = () => {
         <div className="flex flex-col">
           <div className="flex flex-col items-center">
             <div className="flex flex-row space-x-[300px] mb-5">
-              <div className="text-4xl font-bold text-[#1f5090]">
+              <div
+                className="text-4xl font-bold text-blue-900"
+                onClick={redirectToHome}>
                 Team3 Dental Clinic
               </div>
               <div className="space-x-5">
-                <Button onClick={redirectToHistory} className="bg-[#1f5090]">
+                <Button onClick={redirectToHistory} className="bg-blue-900">
                   Цаг авсан түүх
                 </Button>
-                <Button onClick={openModal} className="w-48 bg-[#1f5090]">
+                <Button onClick={openModal} className="w-48 bg-blue-900">
                   Цаг авах
                 </Button>
               </div>
@@ -75,10 +77,10 @@ const Page = () => {
             <div className="flex flex-row space-x-5 mt-5">
               <Card className="w-[570px]">
                 <CardHeader>
-                  <CardTitle className="text-2xl font-black text-[#1f5090]">
+                  <CardTitle className="text-2xl font-black text-blue-900">
                     Бидний тухай:
                   </CardTitle>
-                  <CardDescription className="mt-3 text-[#1f5090]">
+                  <CardDescription className="mt-3 text-blue-900">
                     Манай шүдний эмнэлэг үзлэг оношилгоог мэргэжлийн өндөр
                     түвшинд оношилж, орчин үеийн техник технологийг ашиглан
                     чанартай материалаар эмчилгээг хийж байна.
@@ -90,11 +92,11 @@ const Page = () => {
                   <CardTitle>Team3 Dental Clinic</CardTitle>
                   <div className="flex flex-row items-center gap-1">
                     <Clock
-                      className="fill-[#215495] text-white"
+                      className="fill-blue-900 text-white"
                       width={19}
                       height={19}
                     />
-                    <CardDescription className="text-[#1f5090]">
+                    <CardDescription className="text-blue-900">
                       Цагийн хуваарь: 09:00-20:00
                     </CardDescription>
                   </div>
@@ -104,14 +106,13 @@ const Page = () => {
                       width={15}
                       height={19}
                     />
-                    <CardDescription className="text-[#1f5090]">
+                    <CardDescription className="text-blue-900">
                       Утас: 96043232
                     </CardDescription>
                   </div>
                   <Button
                     onClick={openModal}
-                    className="w-52 mt-5 bg-[#1f5090] font-semibold p-3"
-                  >
+                    className="w-52 mt-5 bg-blue-900 font-semibold p-3">
                     Цаг авах
                   </Button>
                 </CardHeader>
@@ -120,7 +121,7 @@ const Page = () => {
           </div>
         </div>
 
-        <div className="flex bg-[#152b46] text-white h-28 items-center font-medium mt-5 justify-center">
+        <div className="flex bg-blue-950 text-white h-28 items-center font-medium mt-5 justify-center">
           PINECONE © 2015-2025
         </div>
         <TakeTimeDialog open={isModalOpen} onOpenChange={closeModal} />
