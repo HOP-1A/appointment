@@ -9,6 +9,7 @@ const History = () => {
   const [myHistory, setMyHistory] = useState<Appointment[]>([]);
   const appointmentHistory = async () => {
     const response = await fetch("/api/weekly-appointment");
+
     const data = await response.json();
     setMyHistory(data);
   };
@@ -32,7 +33,8 @@ const History = () => {
         <div>
           <div
             className=" pl-10 font-bold text-4xl text-[#1f5090]"
-            onClick={redirectToHome}>
+            onClick={redirectToHome}
+          >
             Team3 Dental Clinic
           </div>
           <div className=" flex flex-col items-center ">
@@ -54,6 +56,11 @@ const History = () => {
                       <div>{format(history.startDate, "yyyy-MM-dd hh:mm")}</div>
                       <div>{format(history.endDate, "hh:mm")}</div>
                     </div>
+                  </div>
+                  <div>
+                    {history.notes.map((note) => {
+                      return <div>{note.note}</div>;
+                    })}
                   </div>
                 </div>
               ))}

@@ -3,7 +3,11 @@ import { NextResponse } from "next/server";
 
 export const GET = async (req: Request) => {
   try {
-    const bookTimes = await prisma.bookTime.findMany();
+    const bookTimes = await prisma.bookTime.findMany({
+      include: {
+        notes: true,
+      },
+    });
 
     const adjustedBookTimes = bookTimes.map((bookTime) => {
       let startDate = new Date(bookTime.startDate);
