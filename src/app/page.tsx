@@ -19,7 +19,7 @@ export default function Home() {
       <div className=" text-white w-screen h-[340px] bg-[url(https://i.pinimg.com/736x/6b/cc/7f/6bcc7f90504c74f286dca773ecfc7daf.jpg)] bg-cover">
         <div className="flex justify-between p-4 text-[24px] font-medium">
           <a href="" className="font-[Oswald]">
-            Team3 Dentalclinic
+            Team3 Dental Clinic
           </a>
           <div className="flex justify-center space-x-12">
             <a href="/" className="font-bold">
