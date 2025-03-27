@@ -17,9 +17,15 @@ export type Appointment = {
   reason: string;
   startDate: Date;
   endDate: Date;
+  notes: string[];
   updatedAt: string;
   createdAt: string;
   notes: { note: string }[];
+};
+export type Note = {
+  id: string;
+  bookTimeId: string;
+  note: String;
 };
 
 export type Event = {
@@ -46,6 +52,7 @@ const Page = () => {
         end: formatDate(appointment.endDate),
         reason: appointment.reason,
         phoneNumber: appointment.phoneNumber,
+        notes: appointment.notes,
       }));
 
       setFormattedEvents(formattedEvents);
@@ -54,7 +61,6 @@ const Page = () => {
     fetchAppointments();
   }, []);
 
-  console.log(formattedEvents);
   return (
     <div>
       {fetchedEvents.length > 0 && (

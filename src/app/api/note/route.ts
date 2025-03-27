@@ -10,6 +10,7 @@ export const POST = async (req: Request) => {
         bookTimeId,
       },
     });
+    console.log(newNote);
     return NextResponse.json(newNote, { status: 201 });
   } catch (error) {
     console.error(error);

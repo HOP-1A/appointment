@@ -11,6 +11,7 @@ import { Input } from "@/components/ui/input";
 import { CalendarEventExternal } from "@schedule-x/calendar";
 import { Phone } from "lucide-react";
 import { useState } from "react";
+import { Note } from "../admin/page";
 
 export const AppointmentDetail = ({
   onOpenChange,
@@ -21,9 +22,24 @@ export const AppointmentDetail = ({
 }) => {
   const [open, setOpen] = useState(false);
   const [noteValue, setNoteValue] = useState("");
-  const saveNote = () => {
-    setOpen(false);
+  const saveNote = async () => {
+    const response = await fetch("/api/note", {
+      method: "POST",
+      body: JSON.stringify({
+        note: noteValue,
+        bookTimeId: selectedAppointment.id,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (response.ok) {
+      setNoteValue("");
+      setOpen(false);
+    }
   };
+
   return (
     <Dialog open onOpenChange={onOpenChange}>
       <DialogTrigger>Open</DialogTrigger>
@@ -60,6 +76,12 @@ export const AppointmentDetail = ({
               <div className="font-semibold text-[18px] text-black">Type</div>
               <div>{selectedAppointment.reason}</div>
             </div>
+            <div className="mt-3">
+              <div className="font-semibold text-[18px] text-black">Notes</div>
+              {selectedAppointment.notes.map((note: Note, index: number) => {
+                return <div key={index}>{note.note}</div>;
+              })}
+            </div>
           </div>
           {open === true ? (
             <div className="flex justify-between align-center h-[60px]">
@@ -88,3 +110,8 @@ export const AppointmentDetail = ({
     </Dialog>
   );
 };
+//  const appointmentHistory = async () => {
+//   const response = await fetch("/api/weekly-appointment");
+//   const data = await response.json();
+//   setMyHistory(data);
+// };
