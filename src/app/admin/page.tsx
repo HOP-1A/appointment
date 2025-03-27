@@ -19,6 +19,7 @@ export type Appointment = {
   endDate: Date;
   updatedAt: string;
   createdAt: string;
+  notes: { note: string }[];
 };
 
 export type Event = {
