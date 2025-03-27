@@ -26,7 +26,7 @@ function CalendarApp({ events }: { events: Event[] }) {
   const onClose = (_value: boolean) => {
     setSelectedAppointment(null);
   };
-  console.log(selectedAppointment);
+
   return (
     <div>
       <ScheduleXCalendar calendarApp={calendar} />
