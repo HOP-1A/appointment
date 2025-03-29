@@ -35,7 +35,8 @@ const History = () => {
           <div className="flex flex-col items-center mt-24 ">
             <div
               className=" pl-10 font-bold text-4xl text-blue-900 cursor-pointer mb-7"
-              onClick={redirectToHome}>
+              onClick={redirectToHome}
+            >
               Team3 Dental Clinic
             </div>
             <div className=" flex flex-col items-center ">
