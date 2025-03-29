@@ -1,6 +1,5 @@
 "use client";
 import { useState } from "react";
-import { Calendar } from "@/components/ui/calendar";
 import {
   Dialog,
   DialogContent,
@@ -24,7 +23,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+
 import { Button } from "../ui/button";
+import { Calendar } from "../ui/calendar";
+
 export const TakeTimeDialog = ({
   open,
   onOpenChange,
@@ -38,6 +40,7 @@ export const TakeTimeDialog = ({
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
   const [treatment, setTreatment] = useState("");
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isOpen, setIsOpen] = useState(false);
 
   const timeSlots = [

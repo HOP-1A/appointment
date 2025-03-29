@@ -1,7 +1,8 @@
 "use client";
 import { format } from "date-fns";
-import { Appointment } from "../page";
-const { getWeek } = require("date-fns");
+import { Appointment } from "../../page";
+import { getWeek } from "date-fns";
+
 const Appointments = ({ events }: { events: Appointment[] }) => {
   const date = format(new Date(), "yyyy-MM-dd");
   const week = getWeek(date);
@@ -36,4 +37,5 @@ const Appointments = ({ events }: { events: Appointment[] }) => {
     </div>
   );
 };
+
 export default Appointments;

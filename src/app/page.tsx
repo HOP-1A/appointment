@@ -6,6 +6,7 @@ import {
   SignedOut,
   UserButton,
 } from "@clerk/nextjs";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React from "react";
 
@@ -22,9 +23,9 @@ export default function Home() {
             Team3 Dental Clinic
           </a>
           <div className="flex justify-center space-x-12">
-            <a href="/" className="font-bold">
+            <Link href="/" className="font-bold">
               Нүүр
-            </a>
+            </Link>
             <button onClick={redirectToBooktime} className="font-bold">
               Цаг захиалга
             </button>

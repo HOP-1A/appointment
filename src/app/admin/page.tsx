@@ -1,14 +1,15 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import CalendarApp from "./calendar/page";
 import { format } from "date-fns";
-import Appointments from "./calendar/Appointments";
+import Appointments from "./calendar/_components/Appointments";
+import CalendarComponent from "./calendar/_components/CalendarComponent";
 
 const formatDate = (dateString: Date) => {
   return format(dateString, "yyyy-MM-dd hh:mm");
 };
 export type Appointment = {
+  notes: Note[];
   id: string;
   userId: string;
   firstName: string;
@@ -19,12 +20,11 @@ export type Appointment = {
   endDate: Date;
   updatedAt: string;
   createdAt: string;
-  notes: { note: string }[];
 };
 export type Note = {
   id: string;
   bookTimeId: string;
-  note: String;
+  note: string;
 };
 
 export type Event = {
@@ -64,7 +64,7 @@ const Page = () => {
     <div>
       {fetchedEvents.length > 0 && (
         <div className="px-32 flex justify-center gap-8">
-          <CalendarApp events={formattedEvents} />
+          <CalendarComponent events={formattedEvents} />
           <Appointments events={fetchedEvents} />
         </div>
       )}

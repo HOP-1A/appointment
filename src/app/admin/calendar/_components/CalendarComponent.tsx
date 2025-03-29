@@ -5,10 +5,10 @@ import { CalendarEventExternal, createViewWeek } from "@schedule-x/calendar";
 import { createEventsServicePlugin } from "@schedule-x/events-service";
 import "@schedule-x/theme-default/dist/index.css";
 import { useMemo, useState } from "react";
-import { Event } from "../page";
-import { AppointmentDetail } from "@/app/appointmentDetail/page";
+import { Event } from "../../page";
+import { AppointmentDetail } from "./AppointmentDetail";
 
-function CalendarApp({ events }: { events: Event[] }) {
+const CalendarComponent = ({ events }: { events: Event[] }) => {
   const [selectedAppointment, setSelectedAppointment] =
     useState<CalendarEventExternal | null>(null);
   const eventsService = useMemo(() => createEventsServicePlugin(), []);
@@ -23,6 +23,8 @@ function CalendarApp({ events }: { events: Event[] }) {
       },
     },
   });
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const onClose = (_value: boolean) => {
     setSelectedAppointment(null);
   };
@@ -39,5 +41,6 @@ function CalendarApp({ events }: { events: Event[] }) {
       ;
     </div>
   );
-}
-export default CalendarApp;
+};
+
+export default CalendarComponent;
