@@ -11,7 +11,7 @@ import { Input } from "@/components/ui/input";
 import { CalendarEventExternal } from "@schedule-x/calendar";
 import { Phone } from "lucide-react";
 import { useState } from "react";
-import { Note } from "../admin/page";
+import { Note } from "../../page";
 
 export const AppointmentDetail = ({
   onOpenChange,
@@ -110,8 +110,3 @@ export const AppointmentDetail = ({
     </Dialog>
   );
 };
-//  const appointmentHistory = async () => {
-//   const response = await fetch("/api/weekly-appointment");
-//   const data = await response.json();
-//   setMyHistory(data);
-// };

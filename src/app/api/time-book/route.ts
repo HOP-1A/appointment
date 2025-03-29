@@ -1,5 +1,4 @@
 import { prisma } from "@/lib/prisma";
-import { error } from "console";
 import { NextResponse } from "next/server";
 
 export const POST = async (req: Request) => {

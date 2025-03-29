@@ -1,7 +1,8 @@
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
-export const GET = async (req: Request) => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const GET = async (_req: Request) => {
   try {
     const bookTimes = await prisma.bookTime.findMany({
       include: {
@@ -10,8 +11,8 @@ export const GET = async (req: Request) => {
     });
 
     const adjustedBookTimes = bookTimes.map((bookTime) => {
-      let startDate = new Date(bookTime.startDate);
-      let endDate = new Date(bookTime.endDate);
+      const startDate = new Date(bookTime.startDate);
+      const endDate = new Date(bookTime.endDate);
 
       startDate.setHours(startDate.getHours() + 7);
       endDate.setHours(endDate.getHours() + 7);
