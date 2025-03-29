@@ -71,7 +71,7 @@ const Page = () => {
             </div>
             <img
               className="rounded-2xl w-full max-w-[900px]"
-              src="https://shud-info.itdoctor.mn/img/online-booking-1728215180"
+              src="/images/team3.png"
               alt="Dental clinic"
             />
             <div className="flex flex-row space-x-5 mt-5">
