@@ -37,15 +37,14 @@ const History = () => {
   return (
     <>
       {myHistory.length === 0 ? (
-        <div className="text-2xl font-black text-[#1f5090] flex justify-center items-center h-screen ">
+        <div className="text-2xl font-black text-blue-900 flex justify-center items-center h-screen ">
           LOADING...
         </div>
       ) : (
         <div>
           <div
             className=" pt-20 flex justify-center font-bold text-4xl text-blue-900 pb-6"
-            onClick={redirectToHome}
-          >
+            onClick={redirectToHome}>
             Team3 Dental Clinic
           </div>
           <div className=" flex flex-col items-center ">
