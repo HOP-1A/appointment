@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { format } from "date-fns";
 import { useEffect, useState } from "react";
 import { Appointment } from "../admin/page";
+import { NotepadText } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -42,13 +43,13 @@ const History = () => {
       ) : (
         <div>
           <div
-            className=" pl-10 font-bold text-4xl text-[#1f5090]"
+            className=" pt-20 flex justify-center font-bold text-4xl text-blue-900 pb-6"
             onClick={redirectToHome}
           >
             Team3 Dental Clinic
           </div>
           <div className=" flex flex-col items-center ">
-            <div className=" rounded-t-lg font-bold text-xl bg-[#1f5090] w-[700px] flex justify-center items-center text-white p-3">
+            <div className=" rounded-t-lg font-bold text-xl bg-blue-900 w-[700px] flex justify-center items-center text-white p-3">
               Миний цаг авсан түүх
             </div>
             {myHistory
@@ -57,24 +58,31 @@ const History = () => {
                 <div key={index}>
                   <div className="flex space-x-4 justify-between items-center border p-4 w-[700px]">
                     <div className="flex space-x-1.5">
-                      <div>{history.firstName}</div>
-                      <div>{history.lastName}</div>
+                      <div className="font-medium uppercase">
+                        {history.firstName}
+                      </div>
+                      <div className="font-medium uppercase">
+                        {history.lastName}
+                      </div>
                     </div>
 
-                    <div>{history.reason}</div>
+                    <div className="font-medium">{history.reason}</div>
                     <div className="flex items-center">
-                      <div>{format(history.startDate, "yyyy-MM-dd hh:mm")}</div>
-                      <div>{format(history.endDate, "hh:mm")}</div>
+                      <div className="flex font-bold">
+                        <div>
+                          {format(history.startDate, "yyyy.MM.dd hh:mm")}
+                        </div>
+                        <div>-</div>
+                        <div>{format(history.endDate, "hh:mm")}</div>
+                      </div>
                       {history.notes.length > 0 && (
-                        <Button
-                          className="bg-[#1f5090] ml-4"
+                        <NotepadText
+                          className=" text-blue-900 font-sans w-[30px] h-[30px] rounded-md ml-4"
                           onClick={() => {
                             setIsNotesVisible(true);
                             setNotes(history.notes);
                           }}
-                        >
-                          notes
-                        </Button>
+                        />
                       )}
                     </div>
                   </div>
@@ -106,7 +114,7 @@ const NotesDialog = ({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>
+          <DialogTitle className="overflow-scroll space-y-4 max-h-[500px] font-sans text-sm">
             {notes.map((note, i) => {
               return (
                 <div key={i}>
