@@ -20,3 +20,24 @@ export const POST = async (req: Request) => {
     );
   }
 };
+
+export const DELETE = async (req: Request) => {
+  try {
+    const { note, bookTimeId } = await req.json();
+    const deleteNote = await prisma.note.delete({
+      where: {
+        id: note,
+        bookTimeId,
+      },
+    });
+
+    console.log("Note deleted: ", deleteNote);
+    return NextResponse.json(deleteNote, { status: 200 });
+  } catch (error) {
+    console.error("Error while deleting note: ", error);
+    return NextResponse.json(
+      { error: "Unable to delete the note." },
+      { status: 500 }
+    );
+  }
+};
