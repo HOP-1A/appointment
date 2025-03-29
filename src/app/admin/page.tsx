@@ -17,7 +17,6 @@ export type Appointment = {
   reason: string;
   startDate: Date;
   endDate: Date;
-  notes: string[];
   updatedAt: string;
   createdAt: string;
   notes: { note: string }[];
