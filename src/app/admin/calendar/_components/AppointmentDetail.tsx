@@ -11,6 +11,7 @@ import { Input } from "@/components/ui/input";
 import { CalendarEventExternal } from "@schedule-x/calendar";
 import { Phone } from "lucide-react";
 import { useState } from "react";
+import { Trash2 } from "lucide-react";
 import { Note } from "../../page";
 
 export const AppointmentDetail = ({
@@ -43,8 +44,8 @@ export const AppointmentDetail = ({
   return (
     <Dialog open onOpenChange={onOpenChange}>
       <DialogTrigger>Open</DialogTrigger>
-      <DialogContent>
-        <Card className="p-6">
+      <DialogContent className="h-[700px]">
+        <Card className="p-6 h-[650px] overflow-scroll">
           <DialogTitle className="font-bold text-3xl text-black">
             Appointment Details
           </DialogTitle>
@@ -79,12 +80,22 @@ export const AppointmentDetail = ({
             <div className="mt-3">
               <div className="font-semibold text-[18px] text-black">Notes</div>
               {selectedAppointment.notes.map((note: Note, index: number) => {
-                return <div key={index}>{note.note}</div>;
+                return (
+                  <div
+                    key={index}
+                    className="flex items-center justify-between border border-black mb-2 p-3 overflow-auto"
+                  >
+                    <div key={index}>{note.note}</div> <Trash2 />
+                  </div>
+                );
               })}
             </div>
           </div>
           {open === true ? (
-            <div className="flex justify-between align-center h-[60px]">
+            <div
+              className="flex justify-between align-center h-fit
+            "
+            >
               <Input
                 value={noteValue}
                 onChange={(e) => setNoteValue(e.target.value)}
