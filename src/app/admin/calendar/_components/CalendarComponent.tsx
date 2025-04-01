@@ -30,7 +30,7 @@ const CalendarComponent = ({ events }: { events: Event[] }) => {
   };
 
   return (
-    <div>
+    <div className="h-screen">
       <ScheduleXCalendar calendarApp={calendar} />
       {selectedAppointment && (
         <AppointmentDetail
@@ -38,7 +38,6 @@ const CalendarComponent = ({ events }: { events: Event[] }) => {
           selectedAppointment={selectedAppointment}
         />
       )}
-      ;
     </div>
   );
 };

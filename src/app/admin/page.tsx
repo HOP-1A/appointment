@@ -63,7 +63,7 @@ const Page = () => {
   return (
     <div>
       {fetchedEvents.length > 0 && (
-        <div className="px-32 flex justify-center gap-8">
+        <div className="px-2 flex justify-center gap-2 h-screen">
           <CalendarComponent events={formattedEvents} />
           <Appointments events={fetchedEvents} />
         </div>
