@@ -85,38 +85,47 @@ export const TakeTimeDialog = ({
     );
 
     const endDate = addHours(startDate, 1);
+    if (isOpen === true) {
+      try {
+        const resJSON = await fetch("/api/time-book", {
+          method: "POST",
+          body: JSON.stringify({
+            userId: user?.id,
+            reason: treatment,
+            startDate: format(startDate, "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"),
+            endDate: format(endDate, "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"),
+            firstName,
+            lastName,
+            phoneNumber,
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
 
-    try {
-      const resJSON = await fetch("/api/time-book", {
-        method: "POST",
-        body: JSON.stringify({
-          userId: user?.id,
-          reason: treatment,
-          startDate: format(startDate, "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"),
-          endDate: format(endDate, "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"),
-          firstName,
-          lastName,
-          phoneNumber,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+        const data = await resJSON.json();
 
-      const data = await resJSON.json();
-
-      if (resJSON.ok) {
-        alert("Таны цаг амжилттай захиалагдлаа. Бид тантай холбогдох болно.");
-        onOpenChange(false);
-      } else if (resJSON.status === 401 && data.error === "already booked") {
-        setIsOpen(false);
-        onOpenChange(false);
-        alert("Энэ цаг аль хэдийн захиалагдсан байна. Өөр цаг сонгоно уу.");
-      } else {
-        alert("Алдаа гарлаа. Дахин оролдоно уу.");
+        if (resJSON.ok) {
+          alert("Таны цаг амжилттай захиалагдлаа. Бид тантай холбогдох болно.");
+          onOpenChange(false);
+        } else if (resJSON.status === 401 && data.error === "already booked") {
+          setIsOpen(false);
+          onOpenChange(false);
+          alert("Энэ цаг аль хэдийн захиалагдсан байна. Өөр цаг сонгоно уу.");
+        } else {
+          alert("Алдаа гарлаа. Дахин оролдоно уу.");
+        }
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
+    } else {
+      setLastName("");
+      setFirstName("");
+      setPhoneNumber("");
+      setDate(new Date());
+      setSelectedTime(null);
+      setTreatment("");
+      setIsOpen(false);
     }
   };
 

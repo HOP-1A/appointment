@@ -57,7 +57,8 @@ const Page = () => {
             <div className="flex flex-row space-x-[300px] mb-5">
               <div
                 className="text-4xl font-bold text-blue-900"
-                onClick={redirectToHome}>
+                onClick={redirectToHome}
+              >
                 Team3 Dental Clinic
               </div>
               <div className="space-x-5">
@@ -112,7 +113,8 @@ const Page = () => {
                   </div>
                   <Button
                     onClick={openModal}
-                    className="w-52 mt-5 bg-blue-900 font-semibold p-3">
+                    className="w-52 mt-5 bg-blue-900 font-semibold p-3"
+                  >
                     Цаг авах
                   </Button>
                 </CardHeader>
