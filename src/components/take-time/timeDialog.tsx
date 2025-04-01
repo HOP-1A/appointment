@@ -40,7 +40,6 @@ export const TakeTimeDialog = ({
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
   const [treatment, setTreatment] = useState("");
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isOpen, setIsOpen] = useState(false);
 
   const timeSlots = [
@@ -57,9 +56,8 @@ export const TakeTimeDialog = ({
     "19:00",
   ];
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
+  const { user } = useUser();
+  const bookTime = async () => {
     if (
       firstName === "" ||
       lastName === "" ||
@@ -69,54 +67,73 @@ export const TakeTimeDialog = ({
       treatment === ""
     ) {
       alert("Бүгдийн бөглөнө үү!");
-      setIsOpen(false);
-    } else {
       setIsOpen(true);
-    }
-  };
+    } else {
+      setIsOpen(false);
+      if (selectedTime) {
+        const [hours, minutes] = selectedTime!.split(":").map(Number);
+        const startDate = setSeconds(
+          setMinutes(setHours(date!, hours), minutes),
+          0
+        );
+        const endDate = addHours(startDate, 1);
+        if (isOpen === false) {
+          try {
+            const resJSON = await fetch("/api/time-book", {
+              method: "POST",
+              body: JSON.stringify({
+                userId: user?.id,
+                reason: treatment,
+                startDate: format(startDate, "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"),
+                endDate: format(endDate, "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"),
+                firstName,
+                lastName,
+                phoneNumber,
+              }),
+              headers: {
+                "Content-Type": "application/json",
+              },
+            });
 
-  const { user } = useUser();
-  const bookTime = async () => {
-    const [hours, minutes] = selectedTime!.split(":").map(Number);
+            const data = await resJSON.json();
 
-    const startDate = setSeconds(
-      setMinutes(setHours(date!, hours), minutes),
-      0
-    );
-
-    const endDate = addHours(startDate, 1);
-
-    try {
-      const resJSON = await fetch("/api/time-book", {
-        method: "POST",
-        body: JSON.stringify({
-          userId: user?.id,
-          reason: treatment,
-          startDate: format(startDate, "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"),
-          endDate: format(endDate, "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"),
-          firstName,
-          lastName,
-          phoneNumber,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      const data = await resJSON.json();
-
-      if (resJSON.ok) {
-        alert("Таны цаг амжилттай захиалагдлаа. Бид тантай холбогдох болно.");
-        onOpenChange(false);
-      } else if (resJSON.status === 401 && data.error === "already booked") {
-        setIsOpen(false);
-        onOpenChange(false);
-        alert("Энэ цаг аль хэдийн захиалагдсан байна. Өөр цаг сонгоно уу.");
+            if (resJSON.ok) {
+              alert(
+                "Таны цаг амжилттай захиалагдлаа. Бид тантай холбогдох болно."
+              );
+              onOpenChange(false);
+              setLastName("");
+              setFirstName("");
+              setPhoneNumber("");
+              setDate(new Date());
+              setSelectedTime(null);
+              setTreatment("");
+            } else if (
+              resJSON.status === 401 &&
+              data.error === "already booked"
+            ) {
+              setIsOpen(false);
+              onOpenChange(false);
+              alert(
+                "Энэ цаг аль хэдийн захиалагдсан байна. Өөр цаг сонгоно уу."
+              );
+              onOpenChange(false);
+              setLastName("");
+              setFirstName("");
+              setPhoneNumber("");
+              setDate(new Date());
+              setSelectedTime(null);
+              setTreatment("");
+            } else {
+              alert("Алдаа гарлаа. Дахин оролдоно уу.");
+            }
+          } catch (error) {
+            console.log(error);
+          }
+        }
       } else {
-        alert("Алдаа гарлаа. Дахин оролдоно уу.");
+        alert("Бүгдийн бөглөнө үү!");
       }
-    } catch (error) {
-      console.log(error);
     }
   };
 
@@ -127,57 +144,55 @@ export const TakeTimeDialog = ({
           <DialogTitle className="text-3xl text-[#1f5090]">
             Цаг захиалах
           </DialogTitle>
-          <form onSubmit={handleSubmit}>
-            <DialogDescription className="mt-3">Эмчилгээ:</DialogDescription>
-            <Select value={treatment} onValueChange={setTreatment}>
-              <SelectTrigger className="w-fit">
-                <SelectValue placeholder="шалтгаанаа сонгоно уу" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="үзлэг зөвөлгөө">Үзлэг зөвлөгөө</SelectItem>
-                <SelectItem value="Эмчилгээний давтан">
-                  Эмчилгээний давтан
-                </SelectItem>
-                <SelectItem value="Бүрээс хийх">Бүрээс хийх</SelectItem>
-                <SelectItem value="Шүдний ломбо хийх">
-                  Шүдний ломбо хийх
-                </SelectItem>
-                <SelectItem value="Гажиг засал">Гажиг засал</SelectItem>
-                <SelectItem value="Сувгийн эмчилгээ">
-                  Сувгийн эмчилгээ
-                </SelectItem>
-                <SelectItem value="Шүд авхуулах">Шүд авхуулах</SelectItem>
-                <SelectItem value="Хиймэл шүд">Хиймэл шүд</SelectItem>
-              </SelectContent>
-            </Select>
-            <DialogDescription className="mt-3">Овог: </DialogDescription>
-            <Input
-              value={firstName}
-              required
-              onChange={(e) => setFirstName(e.target.value)}
-            />
-            <DialogDescription className="mt-3">Нэр: </DialogDescription>
-            <Input
-              value={lastName}
-              required
-              onChange={(e) => setLastName(e.target.value)}
-            />
-            <DialogDescription className="mt-3">Утас: </DialogDescription>
-            <Input
-              value={phoneNumber}
-              required
-              pattern="[0-9]{8}"
-              placeholder="Жишээ: 96043232"
-              onChange={(e) => setPhoneNumber(e.target.value)}
-            />
-            <Button
-              onClick={bookTime}
-              type="submit"
-              className="mt-5 bg-[#1f5090] w-full"
-            >
-              Хадгалах
-            </Button>
-          </form>
+
+          <DialogDescription className="mt-3">Эмчилгээ:</DialogDescription>
+          <Select value={treatment} onValueChange={setTreatment}>
+            <SelectTrigger className="w-fit">
+              <SelectValue placeholder="шалтгаанаа сонгоно уу" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="үзлэг зөвөлгөө">Үзлэг зөвлөгөө</SelectItem>
+              <SelectItem value="Эмчилгээний давтан">
+                Эмчилгээний давтан
+              </SelectItem>
+              <SelectItem value="Бүрээс хийх">Бүрээс хийх</SelectItem>
+              <SelectItem value="Шүдний ломбо хийх">
+                Шүдний ломбо хийх
+              </SelectItem>
+              <SelectItem value="Гажиг засал">Гажиг засал</SelectItem>
+              <SelectItem value="Сувгийн эмчилгээ">Сувгийн эмчилгээ</SelectItem>
+              <SelectItem value="Шүд авхуулах">Шүд авхуулах</SelectItem>
+              <SelectItem value="Хиймэл шүд">Хиймэл шүд</SelectItem>
+            </SelectContent>
+          </Select>
+          <DialogDescription className="mt-3">Овог: </DialogDescription>
+          <Input
+            value={firstName}
+            required
+            onChange={(e) => setFirstName(e.target.value)}
+          />
+          <DialogDescription className="mt-3">Нэр: </DialogDescription>
+          <Input
+            value={lastName}
+            required
+            onChange={(e) => setLastName(e.target.value)}
+          />
+          <DialogDescription className="mt-3">Утас: </DialogDescription>
+          <Input
+            value={phoneNumber}
+            required
+            pattern="[0-9]{8}"
+            type="number"
+            placeholder="Жишээ: 96043232"
+            onChange={(e) => setPhoneNumber(e.target.value)}
+          />
+          <Button
+            onClick={bookTime}
+            type="submit"
+            className="mt-5 bg-[#1f5090] w-full"
+          >
+            Хадгалах
+          </Button>
         </div>
 
         <div className="flex-1 flex flex-col">
