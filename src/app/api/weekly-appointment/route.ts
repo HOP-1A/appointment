@@ -10,28 +10,8 @@ export const GET = async (_req: Request) => {
       },
     });
 
-    const adjustedBookTimes = bookTimes.map((bookTime) => {
-      const startDate = new Date(bookTime.startDate);
-      const endDate = new Date(bookTime.endDate);
+    return NextResponse.json(bookTimes);
 
-      startDate.setHours(startDate.getHours() + 7);
-      endDate.setHours(endDate.getHours() + 7);
-
-      if (startDate.getHours() === 2) {
-        startDate.setHours(9);
-      }
-      if (endDate.getHours() === 2) {
-        endDate.setHours(9);
-      }
-
-      return {
-        ...bookTime,
-        startDate,
-        endDate,
-      };
-    });
-
-    return NextResponse.json(adjustedBookTimes);
   } catch (error) {
     console.error("error!", error);
     return NextResponse.json(

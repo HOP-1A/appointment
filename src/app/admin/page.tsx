@@ -1,13 +1,18 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { format } from "date-fns";
 import Appointments from "./calendar/_components/Appointments";
 import CalendarComponent from "./calendar/_components/CalendarComponent";
 
-const formatDate = (dateString: Date) => {
-  return format(dateString, "yyyy-MM-dd hh:mm");
+const formatDateUTC = (date: Date) => {
+  const year = date.getUTCFullYear();
+  const month = String(date.getUTCMonth() + 1).padStart(2, "0");
+  const day = String(date.getUTCDate()).padStart(2, "0");
+  const hours = String(date.getUTCHours()).padStart(2, "0");
+  const minutes = String(date.getUTCMinutes()).padStart(2, "0");
+  return `${year}-${month}-${day} ${hours}:${minutes}`;
 };
+
 export type Appointment = {
   notes: Note[];
   id: string;
@@ -44,11 +49,12 @@ const Page = () => {
       const data: Appointment[] = await response.json();
 
       setFetchedEvents(data);
+      console.log(data);
       const formattedEvents: Event[] = data.map((appointment) => ({
         id: appointment.id,
         title: `${appointment.firstName} ${appointment.lastName}`,
-        start: formatDate(appointment.startDate),
-        end: formatDate(appointment.endDate),
+        start: formatDateUTC(new Date(appointment.startDate)),
+        end: formatDateUTC(new Date(appointment.endDate)),
         reason: appointment.reason,
         phoneNumber: appointment.phoneNumber,
         notes: appointment.notes,
