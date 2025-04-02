@@ -40,12 +40,22 @@ export const AppointmentDetail = ({
       setOpen(false);
     }
   };
-
+  const deleteNote = async (id: string) => {
+    fetch("/api/delete-note", {
+      method: "DELETE",
+      body: JSON.stringify({
+        id: id,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  };
   return (
     <Dialog open onOpenChange={onOpenChange}>
       <DialogTrigger>Open</DialogTrigger>
-      <DialogContent className="h-[700px]">
-        <Card className="p-6 h-[650px] overflow-scroll">
+      <DialogContent className="h-gfit">
+        <Card className="p-6 overflow-scroll m-2">
           <DialogTitle className="font-bold text-3xl text-black">
             Appointment Details
           </DialogTitle>
@@ -77,19 +87,25 @@ export const AppointmentDetail = ({
               <div className="font-semibold text-[18px] text-black">Type</div>
               <div>{selectedAppointment.reason}</div>
             </div>
-            <div className="mt-3">
+            {selectedAppointment.notes.length >= 1 ? (
               <div className="font-semibold text-[18px] text-black">Notes</div>
-              {selectedAppointment.notes.map((note: Note, index: number) => {
-                return (
-                  <div
-                    key={index}
-                    className="flex items-center justify-between border border-black mb-2 p-3 overflow-auto"
-                  >
-                    <div key={index}>{note.note}</div> <Trash2 />
-                  </div>
-                );
-              })}
-            </div>
+            ) : null}
+
+            {selectedAppointment.notes.length >= 1 ? (
+              <div className="h-[60px] overflow-scroll">
+                {selectedAppointment.notes.map((note: Note, index: number) => {
+                  return (
+                    <div
+                      key={index}
+                      className="flex items-center justify-between border-none mb-2 p-3 overflow-auto "
+                    >
+                      <div key={index}>{note.note}</div>{" "}
+                      <Trash2 onClick={() => deleteNote(note.id)} />
+                    </div>
+                  );
+                })}
+              </div>
+            ) : null}
           </div>
           {open === true ? (
             <div

@@ -26,7 +26,7 @@ import {
 
 import { Button } from "../ui/button";
 import { Calendar } from "../ui/calendar";
-
+import { toast } from "sonner";
 export const TakeTimeDialog = ({
   open,
   onOpenChange,
@@ -41,7 +41,6 @@ export const TakeTimeDialog = ({
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
   const [treatment, setTreatment] = useState("");
   const [isOpen, setIsOpen] = useState(false);
-
   const timeSlots = [
     "09:00",
     "10:00",
@@ -58,82 +57,80 @@ export const TakeTimeDialog = ({
 
   const { user } = useUser();
   const bookTime = async () => {
-    if (
-      firstName === "" ||
-      lastName === "" ||
-      phoneNumber === "" ||
-      date === undefined ||
-      selectedTime === "" ||
-      treatment === ""
-    ) {
-      alert("Бүгдийн бөглөнө үү!");
-      setIsOpen(true);
-    } else {
-      setIsOpen(false);
-      if (selectedTime) {
-        const [hours, minutes] = selectedTime!.split(":").map(Number);
-        const startDate = setSeconds(
-          setMinutes(setHours(date!, hours), minutes),
-          0
-        );
-        const endDate = addHours(startDate, 1);
-        if (isOpen === false) {
-          try {
-            const resJSON = await fetch("/api/time-book", {
-              method: "POST",
-              body: JSON.stringify({
-                userId: user?.id,
-                reason: treatment,
-                startDate: format(startDate, "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"),
-                endDate: format(endDate, "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"),
-                firstName,
-                lastName,
-                phoneNumber,
-              }),
-              headers: {
-                "Content-Type": "application/json",
-              },
-            });
-
-            const data = await resJSON.json();
-
-            if (resJSON.ok) {
-              alert(
-                "Таны цаг амжилттай захиалагдлаа. Бид тантай холбогдох болно."
-              );
-              onOpenChange(false);
-              setLastName("");
-              setFirstName("");
-              setPhoneNumber("");
-              setDate(new Date());
-              setSelectedTime(null);
-              setTreatment("");
-            } else if (
-              resJSON.status === 401 &&
-              data.error === "already booked"
-            ) {
-              setIsOpen(false);
-              onOpenChange(false);
-              alert(
-                "Энэ цаг аль хэдийн захиалагдсан байна. Өөр цаг сонгоно уу."
-              );
-              onOpenChange(false);
-              setLastName("");
-              setFirstName("");
-              setPhoneNumber("");
-              setDate(new Date());
-              setSelectedTime(null);
-              setTreatment("");
-            } else {
-              alert("Алдаа гарлаа. Дахин оролдоно уу.");
-            }
-          } catch (error) {
-            console.log(error);
-          }
-        }
+    if (user) {
+      if (
+        firstName === "" ||
+        lastName === "" ||
+        phoneNumber === "" ||
+        date === undefined ||
+        selectedTime === "" ||
+        treatment === ""
+      ) {
+        toast("Бүгдийн бөглөнө үү!");
+        setIsOpen(true);
       } else {
-        alert("Бүгдийн бөглөнө үү!");
+        setIsOpen(false);
+        if (selectedTime) {
+          const [hours, minutes] = selectedTime!.split(":").map(Number);
+          const startDate = setSeconds(
+            setMinutes(setHours(date!, hours), minutes),
+            0
+          );
+          const endDate = addHours(startDate, 1);
+          if (isOpen === false) {
+            try {
+              const resJSON = await fetch("/api/time-book", {
+                method: "POST",
+                body: JSON.stringify({
+                  userId: user?.id,
+                  reason: treatment,
+                  startDate: format(startDate, "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"),
+                  endDate: format(endDate, "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"),
+                  firstName,
+                  lastName,
+                  phoneNumber,
+                }),
+                headers: {
+                  "Content-Type": "application/json",
+                },
+              });
+
+              const data = await resJSON.json();
+
+              if (resJSON.ok) {
+                toast(
+                  "Таны цаг амжилттай захиалагдлаа. Бид тантай холбогдох болно."
+                );
+                onOpenChange(false);
+                setLastName("");
+                setFirstName("");
+                setPhoneNumber("");
+                setDate(new Date());
+                setSelectedTime(null);
+                setTreatment("");
+              } else if (
+                resJSON.status === 401 &&
+                data.error === "already booked"
+              ) {
+                setIsOpen(false);
+                onOpenChange(false);
+                toast(
+                  "Энэ цаг аль хэдийн захиалагдсан байна. Өөр цаг сонгоно уу."
+                );
+                setSelectedTime(null);
+              } else {
+                toast("Алдаа гарлаа. Дахин оролдоно уу.");
+              }
+            } catch (error) {
+              console.log(error);
+            }
+          }
+        } else {
+          toast("Бүгдийн бөглөнө үү!");
+        }
       }
+    } else {
+      toast("Хэрэглэгч та нэвтэрч цагаа захиална уу.");
     }
   };
 
@@ -189,7 +186,7 @@ export const TakeTimeDialog = ({
           <Button
             onClick={bookTime}
             type="submit"
-            className="mt-5 bg-[#1f5090] w-full"
+            className="mt-5 bg-[#1f5090] w-full hover:bg-blue-900"
           >
             Хадгалах
           </Button>
@@ -225,9 +222,10 @@ export const TakeTimeDialog = ({
                     variant={selectedTime === time ? "default" : "outline"}
                     className={`${
                       selectedTime === time
-                        ? "bg-[#1f5090]"
-                        : "border-[#1f5090] text-[#1f5090]"
-                    }`}
+                        ? "bg-white text-black border-black hover:bg-blue-900 hover:text-white"
+                        : " hover:bg-blue-900 hover:text-white  text-white bg-[#1f5090]"
+                    }
+                   `}
                     onClick={() => setSelectedTime(time)}
                   >
                     {time}
