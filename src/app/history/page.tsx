@@ -1,7 +1,6 @@
 "use client";
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
-import { format } from "date-fns";
 import { useEffect, useState } from "react";
 import { Appointment } from "../admin/page";
 import { NotepadText } from "lucide-react";
@@ -24,7 +23,14 @@ const History = () => {
       data.filter((history: Appointment) => history.userId === user?.id)
     );
   };
-
+  const formatDateUTC = (date: Date) => {
+    const year = date.getUTCFullYear();
+    const month = String(date.getUTCMonth() + 1).padStart(2, "0");
+    const day = String(date.getUTCDate()).padStart(2, "0");
+    const hours = String(date.getUTCHours()).padStart(2, "0");
+    const minutes = String(date.getUTCMinutes()).padStart(2, "0");
+    return `${year}-${month}-${day} ${hours}:${minutes}`;
+  };
   useEffect(() => {
     if (user === null) {
       toast("Хэрэглэгч та нэвтэрч цаг захиалгын түүхээ харна уу.");
@@ -51,7 +57,7 @@ const History = () => {
           >
             Team3 Dental Clinic
           </div>
-          <div className="text-2xl font-black text-[#1f5090] ">
+          <div className="text-3xl font-black text-[#1f5090] ">
             Та цаг захиалаагүй байна.
           </div>
         </div>
@@ -67,7 +73,7 @@ const History = () => {
             {myHistory.map((history, index) => (
               <div key={index}>
                 <div className="flex space-x-4 justify-between items-center border p-4 w-[700px]">
-                  <div className="flex space-x-1.5">
+                  <div className="flex space-x-1.5 w-2/5 overflow-scroll no-scrollbar">
                     <div className="font-medium uppercase">
                       {history.firstName}
                     </div>
@@ -76,12 +82,14 @@ const History = () => {
                     </div>
                   </div>
 
-                  <div className="font-medium">{history.reason}</div>
+                  <div className="font-medium w-1/5">{history.reason}</div>
                   <div className="flex items-center">
                     <div className="flex font-bold">
-                      <div>{format(history.startDate, "yyyy.MM.dd hh:mm")}</div>
+                      <div>{formatDateUTC(new Date(history.startDate))}</div>
                       <div>-</div>
-                      <div>{format(history.endDate, "hh:mm")}</div>
+                      <div>
+                        {formatDateUTC(new Date(history.endDate)).split(" ")[1]}
+                      </div>
                     </div>
                     {history.notes.length > 0 && (
                       <NotepadText

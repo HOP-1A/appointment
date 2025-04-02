@@ -27,6 +27,7 @@ import {
 import { Button } from "../ui/button";
 import { Calendar } from "../ui/calendar";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 export const TakeTimeDialog = ({
   open,
   onOpenChange,
@@ -41,6 +42,8 @@ export const TakeTimeDialog = ({
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
   const [treatment, setTreatment] = useState("");
   const [isOpen, setIsOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const { push } = useRouter();
   const timeSlots = [
     "09:00",
     "10:00",
@@ -79,6 +82,7 @@ export const TakeTimeDialog = ({
           const endDate = addHours(startDate, 1);
           if (isOpen === false) {
             try {
+              setIsLoading(true);
               const resJSON = await fetch("/api/time-book", {
                 method: "POST",
                 body: JSON.stringify({
@@ -108,6 +112,7 @@ export const TakeTimeDialog = ({
                 setDate(new Date());
                 setSelectedTime(null);
                 setTreatment("");
+                setIsLoading(false);
               } else if (
                 resJSON.status === 401 &&
                 data.error === "already booked"
@@ -118,11 +123,14 @@ export const TakeTimeDialog = ({
                   "Энэ цаг аль хэдийн захиалагдсан байна. Өөр цаг сонгоно уу."
                 );
                 setSelectedTime(null);
+                setIsLoading(false);
               } else {
                 toast("Алдаа гарлаа. Дахин оролдоно уу.");
+                setIsLoading(false);
               }
             } catch (error) {
               console.log(error);
+              setIsLoading(false);
             }
           }
         } else {
@@ -131,6 +139,7 @@ export const TakeTimeDialog = ({
       }
     } else {
       toast("Хэрэглэгч та нэвтэрч цагаа захиална уу.");
+      push("/");
     }
   };
 
@@ -188,7 +197,7 @@ export const TakeTimeDialog = ({
             type="submit"
             className="mt-5 bg-[#1f5090] w-full hover:bg-blue-900"
           >
-            Хадгалах
+            {!isLoading ? "Хадгалах" : "Хадгалж байна..."}
           </Button>
         </div>
 

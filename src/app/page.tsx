@@ -5,6 +5,7 @@ import {
   SignedIn,
   SignedOut,
   UserButton,
+  useUser,
 } from "@clerk/nextjs";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -15,6 +16,7 @@ export default function Home() {
   const redirectToBooktime = () => {
     router.push("/taketime");
   };
+  const { user } = useUser();
   return (
     <div>
       <div className=" text-white w-screen h-[340px] bg-[url(https://i.pinimg.com/736x/6b/cc/7f/6bcc7f90504c74f286dca773ecfc7daf.jpg)] bg-cover">
@@ -26,9 +28,11 @@ export default function Home() {
             <Link href="/" className="font-bold">
               Нүүр
             </Link>
-            <button onClick={redirectToBooktime} className="font-bold">
-              Цаг захиалга
-            </button>
+            {user && (
+              <button onClick={redirectToBooktime} className="font-bold">
+                Цаг захиалга
+              </button>
+            )}
             <SignedOut>
               <SignInButton />
               <SignUpButton />
