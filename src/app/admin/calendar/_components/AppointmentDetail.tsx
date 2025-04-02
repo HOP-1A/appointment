@@ -59,7 +59,7 @@ export const AppointmentDetail = ({
           <DialogTitle className="font-bold text-3xl text-black">
             Appointment Details
           </DialogTitle>
-          <div className="font-semibold text-2xl ">
+          <div className="font-semibold text-2xl w-full overflow-hidden">
             {selectedAppointment.title}
           </div>
           <div>
