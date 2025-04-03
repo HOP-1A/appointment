@@ -6,7 +6,14 @@ const Appointments = ({ events }: { events: Appointment[] }) => {
   const date = new Date();
   const formattedDate = format(date, "yyyy-MM-dd");
   const week = getWeek(date);
-
+  const formatDateUTC = (date: Date) => {
+    const year = date.getUTCFullYear();
+    const month = String(date.getUTCMonth() + 1).padStart(2, "0");
+    const day = String(date.getUTCDate()).padStart(2, "0");
+    const hours = String(date.getUTCHours()).padStart(2, "0");
+    const minutes = String(date.getUTCMinutes()).padStart(2, "0");
+    return `${year}-${month}-${day} ${hours}:${minutes}`;
+  };
   return (
     <div className="h-screen w-[500px] flex flex-col">
       <div className="border rounded-md w-full h-full flex flex-col overflow-hidden">
@@ -27,7 +34,7 @@ const Appointments = ({ events }: { events: Appointment[] }) => {
                       <div>{user.lastName}</div>
                     </div>
                     <div className="text-gray-500">
-                      {format(user.startDate, "yyyy-MM-dd hh:mm")}
+                      {formatDateUTC(new Date(user.startDate))}
                     </div>
                   </div>
                 </div>
