@@ -73,7 +73,7 @@ const History = () => {
             {myHistory.map((history, index) => (
               <div key={index}>
                 <div className="flex space-x-4 justify-between items-center border p-4 w-[700px]">
-                  <div className="flex space-x-1.5 w-2/5 overflow-scroll no-scrollbar">
+                  <div className="flex space-x-1.5 w-1/4 overflow-scroll no-scrollbar">
                     <div className="font-medium uppercase">
                       {history.firstName}
                     </div>
@@ -82,7 +82,7 @@ const History = () => {
                     </div>
                   </div>
 
-                  <div className="font-medium w-1/5">{history.reason}</div>
+                  <div className="font-medium w-1/4">{history.reason}</div>
                   <div className="flex items-center">
                     <div className="flex font-bold">
                       <div>{formatDateUTC(new Date(history.startDate))}</div>
@@ -91,15 +91,15 @@ const History = () => {
                         {formatDateUTC(new Date(history.endDate)).split(" ")[1]}
                       </div>
                     </div>
-                    {history.notes.length > 0 && (
-                      <NotepadText
-                        className=" text-blue-900 font-sans w-[30px] h-[30px] rounded-md ml-4"
-                        onClick={() => {
-                          setIsNotesVisible(true);
-                          setNotes(history.notes);
-                        }}
-                      />
-                    )}
+                    {/* {history.notes.length > 0 && ( */}
+                    <NotepadText
+                      className=" text-blue-900 font-sans w-[30px] h-[30px] rounded-md ml-4"
+                      onClick={() => {
+                        setIsNotesVisible(true);
+                        setNotes(history.notes);
+                      }}
+                    />
+                    {/* )} */}
                   </div>
                 </div>
               </div>
@@ -127,20 +127,34 @@ const NotesDialog = ({
   notes: { note: string }[];
 }) => {
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle className="overflow-scroll space-y-4 max-h-[500px] font-sans text-sm">
-            {notes.map((note, i) => {
-              return (
-                <div key={i}>
-                  {i + 1}. {note.note}
-                </div>
-              );
-            })}
-          </DialogTitle>
-        </DialogHeader>
-      </DialogContent>
-    </Dialog>
+    <>
+      {notes.length === 0 ? (
+        <Dialog open={open} onOpenChange={onOpenChange}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle className="overflow-scroll space-y-4 max-h-[500px] font-sans text-sm">
+                Тэмдэглэл алга.
+              </DialogTitle>
+            </DialogHeader>
+          </DialogContent>
+        </Dialog>
+      ) : (
+        <Dialog open={open} onOpenChange={onOpenChange}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle className="overflow-scroll space-y-4 max-h-[500px] font-sans text-sm">
+                {notes.map((note, i) => {
+                  return (
+                    <div key={i}>
+                      {i + 1}. {note.note}
+                    </div>
+                  );
+                })}
+              </DialogTitle>
+            </DialogHeader>
+          </DialogContent>
+        </Dialog>
+      )}
+    </>
   );
 };
